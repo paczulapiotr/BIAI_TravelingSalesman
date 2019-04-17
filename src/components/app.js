@@ -5,8 +5,8 @@ import SketchFactory from '../p5/sketch';
 const options = {
   height: 400,
   width: 400,
-  pointsAmount: 100,
-  populationSize: 100,
+  pointsAmount: 7,
+  populationSize: 200,
   mutation: 0.01,
 };
 

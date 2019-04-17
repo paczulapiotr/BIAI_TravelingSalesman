@@ -1,16 +1,23 @@
-import { createRandomPoints, createPopulation } from '../genetic';
+import {
+  createRandomPoints,
+  createPopulation,
+  nextGeneration,
+} from '../genetic';
 
 function drawScene(ctx, voyage, genes, radius = 10) {
   let prevX;
   let prevY;
-  debugger;
   ctx.clear();
+  for (let i = 0; i < genes.length; i++) {
+    const { x, y } = voyage[genes[i]];
+    ctx.ellipse(x, y, radius, radius);
+  }
+
   for (let i = 0; i < genes.length; i++) {
     const { x, y } = voyage[genes[i]];
     if (i > 0) {
       ctx.line(prevX, prevY, x, y);
     }
-    ctx.ellipse(x, y, radius, radius);
     prevX = x;
     prevY = y;
   }
@@ -26,17 +33,32 @@ export default class SketchFactory {
   }
 
 create = () => (ctx) => {
+  const { mutation } = this;
   let population;
   let voyage;
   let bestDna = null;
 
   const populate = () => {
-    const { newPopulation, best } = createPopulation(
+    const { population: newPopulation, best } = createPopulation(
       ctx,
       voyage,
       this.populationSize,
     );
-    debugger;
+
+    population = newPopulation;
+    if (bestDna === null || bestDna.fitness < best.fitness) {
+      bestDna = best;
+    }
+  };
+
+  const newPopulate = () => {
+    const { best, newPopulation } = nextGeneration(
+      ctx,
+      voyage,
+      population,
+      mutation,
+    );
+
     population = newPopulation;
     if (bestDna === null || bestDna.fitness < best.fitness) {
       bestDna = best;
@@ -58,8 +80,9 @@ create = () => (ctx) => {
   };
 
   ctx.draw = () => {
-    populate();
+    newPopulate();
     drawScene(ctx, voyage, bestDna.genes);
+    console.log(bestDna.fitness);
   };
 };
 }
