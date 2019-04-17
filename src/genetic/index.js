@@ -31,13 +31,6 @@ function _normalizeFitness(population) {
   }
 }
 
-
-/**
- *
- * @param {*} p5 should be moved to window
- * @param {*} population Array of { array: Array<Number>, fitness: Number }
- * @param {*} prob  From 0 to 1
- */
 function _mutateDna(p5, points, dna, prob) {
   const chance = p5.random(0, 1);
   if (chance > prob) {
@@ -49,7 +42,7 @@ function _mutateDna(p5, points, dna, prob) {
 }
 
 
-function _pickDna(p5, points, population, prob) {
+function _pickDna(p5, points, population) {
   let choice = p5.random(0, 1);
   let index = 0;
   while (choice > 0 && index < population.length) {
@@ -57,10 +50,22 @@ function _pickDna(p5, points, population, prob) {
     index++;
   }
   index--;
-  const dna = _mutateDna(p5, points, population[index], prob);
-  return dna;
+  return population[index];
 }
 
+function _crossover(p5, dnaA, dnaB, points) {
+  const { length } = dnaA.genes;
+  const i = p5.random(0, length);
+  const j = p5.random(i + 1, length);
+  const newGenes = dnaA.genes.slice(i, j);
+  dnaB.genes.forEach((b) => {
+    if (!newGenes.includes(b)) {
+      newGenes.push(b);
+    }
+  });
+  const fitness = calcFitness(newGenes, points);
+  return DnaFactory.get(newGenes, fitness);
+}
 
 export function createRandomPoints(p5, pointsAmount, width, height, border = 10) {
   const array = [];
@@ -104,7 +109,16 @@ export function nextGeneration(p5, points, population, mutationProb) {
   let bestIndex = 0;
   const newPopulation = [];
   for (let i = 0; i < population.length; i++) {
-    const dna = _pickDna(p5, points, population, mutationProb);
+    const dnaA = _pickDna(p5, points, population);
+    const dnaB = _pickDna(p5, points, population);
+    const dna = _mutateDna(
+      p5,
+      points,
+      _crossover(p5, dnaA, dnaB, points),
+      mutationProb,
+    );
+
+
     if (dna.fitness > bestFitness) {
       bestFitness = dna.fitness;
       bestIndex = i;

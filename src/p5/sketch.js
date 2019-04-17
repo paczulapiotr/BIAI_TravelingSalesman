@@ -8,16 +8,14 @@ function drawScene(ctx, voyage, genes, radius = 10) {
   let prevX;
   let prevY;
   ctx.clear();
-  for (let i = 0; i < genes.length; i++) {
-    const { x, y } = voyage[genes[i]];
-    ctx.ellipse(x, y, radius, radius);
-  }
-
+  ctx.noFill();
   for (let i = 0; i < genes.length; i++) {
     const { x, y } = voyage[genes[i]];
     if (i > 0) {
       ctx.line(prevX, prevY, x, y);
     }
+    ctx.ellipse(x, y, radius, radius);
+
     prevX = x;
     prevY = y;
   }
@@ -51,7 +49,7 @@ create = () => (ctx) => {
     }
   };
 
-  const newPopulate = () => {
+  const nextPopulate = () => {
     const { best, newPopulation } = nextGeneration(
       ctx,
       voyage,
@@ -80,7 +78,7 @@ create = () => (ctx) => {
   };
 
   ctx.draw = () => {
-    newPopulate();
+    nextPopulate();
     drawScene(ctx, voyage, bestDna.genes);
     console.log(bestDna.fitness);
   };
