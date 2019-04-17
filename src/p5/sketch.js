@@ -1,8 +1,4 @@
-import {
-  createRandomPoints,
-  createPopulation,
-  nextGeneration,
-} from '../genetic';
+import { TravelingSalesmanLogic } from '../logic/genetic';
 
 function drawScene(ctx, voyage, genes, radius = 10) {
   let prevX;
@@ -23,6 +19,7 @@ function drawScene(ctx, voyage, genes, radius = 10) {
 
 export default class SketchFactory {
   constructor(options) {
+    this.options = options;
     this.heigth = options.height;
     this.width = options.width;
     this.pointsAmount = options.pointsAmount;
@@ -31,56 +28,17 @@ export default class SketchFactory {
   }
 
 create = () => (ctx) => {
-  const { mutation } = this;
-  let population;
-  let voyage;
-  let bestDna = null;
-
-  const populate = () => {
-    const { population: newPopulation, best } = createPopulation(
-      ctx,
-      voyage,
-      this.populationSize,
-    );
-
-    population = newPopulation;
-    if (bestDna === null || bestDna.fitness < best.fitness) {
-      bestDna = best;
-    }
-  };
-
-  const nextPopulate = () => {
-    const { best, newPopulation } = nextGeneration(
-      ctx,
-      voyage,
-      population,
-      mutation,
-    );
-
-    population = newPopulation;
-    if (bestDna === null || bestDna.fitness < best.fitness) {
-      bestDna = best;
-    }
-  };
-
+  const geneticAlg = new TravelingSalesmanLogic({ ...this.options, p5: ctx });
   ctx.setup = () => {
-    voyage = createRandomPoints(
-      ctx,
-      this.pointsAmount,
-      this.width,
-      this.heigth,
-    );
-
-    populate();
+    geneticAlg.firstPopulation();
     ctx.createCanvas(this.width, this.heigth);
-    console.log('population', population);
-    console.log('voyage', voyage);
   };
 
   ctx.draw = () => {
-    nextPopulate();
-    drawScene(ctx, voyage, bestDna.genes);
-    console.log(bestDna.fitness);
+    geneticAlg.nextPopulation();
+    const voyage = geneticAlg.points;
+    const { genes } = geneticAlg.bestDna;
+    drawScene(ctx, voyage, genes);
   };
 };
 }
