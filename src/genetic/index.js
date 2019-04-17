@@ -38,6 +38,8 @@ export function createRandomPoints(p5, pointsAmount, width, height, border = 10)
 
 export function createPopulation(p5, points, populationSize) {
   const population = [];
+  let bestFitness = 0;
+  let bestIndex = 0;
   for (let i = 0; i < populationSize; i++) {
     const temp = [];
     for (let j = 0; j < points.length; j++) {
@@ -45,7 +47,16 @@ export function createPopulation(p5, points, populationSize) {
     }
     const genes = p5.shuffle(temp);
     const fitness = calcFitness(genes, points);
+
+    if (bestFitness < fitness) {
+      bestIndex = i;
+      bestFitness = fitness;
+    }
+
     population.push(DnaFactory.get(genes, fitness));
   }
-  return population;
+  return {
+    newPopulation: population,
+    best: population[bestIndex],
+  };
 }

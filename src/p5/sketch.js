@@ -1,19 +1,18 @@
 import { createRandomPoints, createPopulation } from '../genetic';
 
-function drawScene(ctx, voyage, radius = 10) {
+function drawScene(ctx, voyage, genes, radius = 10) {
   let prevX;
   let prevY;
-  let currX;
-  let currY;
-  for (let i = 0; i < voyage.length; i++) {
-    currX = voyage[i].x;
-    currY = voyage[i].y;
+  debugger;
+  ctx.clear();
+  for (let i = 0; i < genes.length; i++) {
+    const { x, y } = voyage[genes[i]];
     if (i > 0) {
-      ctx.line(prevX, prevY, currX, currY);
+      ctx.line(prevX, prevY, x, y);
     }
-    ctx.ellipse(currX, currY, radius, radius);
-    prevX = currX;
-    prevY = currY;
+    ctx.ellipse(x, y, radius, radius);
+    prevX = x;
+    prevY = y;
   }
 }
 
@@ -26,28 +25,41 @@ export default class SketchFactory {
     this.mutation = options.mutation;
   }
 
-   create = () => (ctx) => {
-     let population;
-     let voyage;
-     ctx.setup = () => {
-       voyage = createRandomPoints(
-         ctx,
-         this.pointsAmount,
-         this.width,
-         this.heigth,
-       );
-       population = createPopulation(
-         ctx,
-         voyage,
-         this.populationSize,
-       );
-       ctx.createCanvas(this.width, this.heigth);
-       console.log('population', population);
-       console.log('voyage', voyage);
-     };
+create = () => (ctx) => {
+  let population;
+  let voyage;
+  let bestDna = null;
 
-     ctx.draw = () => {
-       drawScene(ctx, voyage);
-     };
-   };
+  const populate = () => {
+    const { newPopulation, best } = createPopulation(
+      ctx,
+      voyage,
+      this.populationSize,
+    );
+    debugger;
+    population = newPopulation;
+    if (bestDna === null || bestDna.fitness < best.fitness) {
+      bestDna = best;
+    }
+  };
+
+  ctx.setup = () => {
+    voyage = createRandomPoints(
+      ctx,
+      this.pointsAmount,
+      this.width,
+      this.heigth,
+    );
+
+    populate();
+    ctx.createCanvas(this.width, this.heigth);
+    console.log('population', population);
+    console.log('voyage', voyage);
+  };
+
+  ctx.draw = () => {
+    populate();
+    drawScene(ctx, voyage, bestDna.genes);
+  };
+};
 }
