@@ -14,10 +14,15 @@ export class TravelingSalesmanLogic {
     this._mutation = options.mutation;
     this._populationSize = options.populationSize;
     this._bestDna = null;
+    this._bestOfPopulation = null;
   }
 
   get bestDna() {
     return this._bestDna;
+  }
+
+  get bestOfPopulation() {
+    return this._bestOfPopulation;
   }
 
   get points() {
@@ -95,12 +100,13 @@ export class TravelingSalesmanLogic {
       firstPopulation.push(DnaFactory.get(genes, fitness));
     }
     this._bestDna = firstPopulation[bestIndex];
+    this._bestOfPopulation = this._bestDna;
     this._normalizeFitness(firstPopulation);
     this._population = firstPopulation;
   }
 
   nextPopulation=() => {
-    let bestFitness = this._bestDna.fitness;
+    let bestFitness = 0;
     let bestIndex = null;
     const newPopulation = [];
     for (let i = 0; i < this._population.length; i++) {
@@ -115,8 +121,10 @@ export class TravelingSalesmanLogic {
       newPopulation.push(dna);
     }
 
-    if (bestIndex !== null) {
-      this._bestDna = newPopulation[bestIndex];
+    this._bestOfPopulation = newPopulation[bestIndex];
+
+    if (bestFitness > this._bestDna.fitness) {
+      this._bestDna = this._bestOfPopulation;
     }
 
     this._normalizeFitness(newPopulation);

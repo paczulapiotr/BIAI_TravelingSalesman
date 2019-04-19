@@ -1,12 +1,19 @@
 import { TravelingSalesmanLogic } from '../logic/genetic';
 
-function drawScene(ctx, voyage, genes, radius = 10) {
+function prepareScene(ctx) {
+  ctx.clear();
+  ctx.textSize(20);
+  ctx.text(`Fps: ${Number.parseInt(ctx.frameRate())}`, 10, 50);
+  ctx.fill(50);
+}
+
+function drawScene(ctx, voyage, genes, xtranslate = 0, ytranslate = 0, radius = 10) {
   let prevX;
   let prevY;
-  ctx.clear();
-  ctx.noFill();
   for (let i = 0; i < genes.length; i++) {
-    const { x, y } = voyage[genes[i]];
+    let { x, y } = voyage[genes[i]];
+    x += xtranslate;
+    y += ytranslate;
     if (i > 0) {
       ctx.line(prevX, prevY, x, y);
     }
@@ -22,6 +29,8 @@ export default class SketchFactory {
     this.options = options;
     this.heigth = options.height;
     this.width = options.width;
+    this.canvasWidth = options.canvasWidth;
+    this.canvasHeight = options.canvasHeight;
     this.pointsAmount = options.pointsAmount;
     this.populationSize = options.populationSize;
     this.mutation = options.mutation;
@@ -31,14 +40,17 @@ create = () => (ctx) => {
   const geneticAlg = new TravelingSalesmanLogic({ ...this.options, p5: ctx });
   ctx.setup = () => {
     geneticAlg.firstPopulation();
-    ctx.createCanvas(this.width, this.heigth);
+    ctx.createCanvas(this.canvasWidth, this.canvasHeight);
   };
 
   ctx.draw = () => {
     geneticAlg.nextPopulation();
     const voyage = geneticAlg.points;
-    const { genes } = geneticAlg.bestDna;
-    drawScene(ctx, voyage, genes);
+    const { genes: bestEver } = geneticAlg.bestDna;
+    const { genes: populationBest } = geneticAlg.bestOfPopulation;
+    prepareScene(ctx);
+    drawScene(ctx, voyage, bestEver, 0, 100);
+    drawScene(ctx, voyage, populationBest, 0, this.heigth + 100);
   };
 };
 }
