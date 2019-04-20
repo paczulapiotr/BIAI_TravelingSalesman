@@ -1,0 +1,12 @@
+.settings-panel {
+	.form-control {
+		& > * {
+			margin-top: 10px !important;
+		}
+		.settings-buttons{
+			display: flex;
+			justify-content: space-around;
+			padding-top: 10px;
+		}
+	}
+}

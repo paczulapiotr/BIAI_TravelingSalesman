@@ -13,6 +13,7 @@ export class TravelingSalesmanLogic {
     this._population = [];
     this._mutation = options.mutation;
     this._populationSize = options.populationSize;
+    this._showPopulationsBest = options.showPopulationsBest;
     this._bestDna = null;
     this._bestOfPopulation = null;
     this._bestDistance = Infinity;
@@ -41,6 +42,10 @@ export class TravelingSalesmanLogic {
 
   get pointsAmount() {
     return this._pointsAmount;
+  }
+
+  get showPopulationsBest() {
+    return this._showPopulationsBest;
   }
 
   get averageFitness() {

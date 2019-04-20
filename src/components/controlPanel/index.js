@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Paper, Typography, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import './style.scss';
 
-export default class StartPanel extends Component {
+export default class ControlPanel extends Component {
     static propTypes = {
       contin: PropTypes.func.isRequired,
       pause: PropTypes.func.isRequired,
@@ -17,13 +18,15 @@ export default class StartPanel extends Component {
     render() {
       const { contin, pause, restart } = this.props;
       return (
-        <Paper className="panel">
-          <Typography variant="h3">
-           Start panel
+        <Paper className="panel control-panel">
+          <Typography variant="h4">
+           Control panel
           </Typography>
-          <Button variant="outlined" onClick={restart}>Restart</Button>
-          <Button variant="outlined" onClick={pause}>Pause</Button>
-          <Button variant="outlined" onClick={contin}>Continue</Button>
+          <footer className="control-buttons">
+            <Button variant="outlined" onClick={restart}>Restart</Button>
+            <Button variant="outlined" onClick={pause}>Pause</Button>
+            <Button variant="outlined" onClick={contin}>Continue</Button>
+          </footer>
         </Paper>
       );
     }

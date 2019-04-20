@@ -25,9 +25,9 @@ render() {
   const { averageFitness, bestDistance } = this.state;
   return (
     <Paper className="stats-panel panel">
-      <Typography variant="h3">Statistics</Typography>
-      <Typography variant="h5">{`Average fitness: ${averageFitness}`}</Typography>
-      <Typography variant="h5">{`Best distance: ${bestDistance}`}</Typography>
+      <Typography variant="h4">Statistics</Typography>
+      <Typography variant="h6">{`Average fitness: ${averageFitness}`}</Typography>
+      <Typography variant="h6">{`Best distance: ${bestDistance}`}</Typography>
       <Button
         variant="outlined"
         onClick={this.updateStats}

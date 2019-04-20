@@ -53,7 +53,9 @@ export class SketchFactory {
           const { genes: populationBest } = geneticAlg.bestOfPopulation;
           prepareScene(p5);
           drawScene(p5, voyage, bestEver);
-          drawScene(p5, voyage, populationBest, 0, this._heigth);
+          if (geneticAlg.showPopulationsBest) {
+            drawScene(p5, voyage, populationBest, 0, this._heigth);
+          }
         };
       },
       manager: {
