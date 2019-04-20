@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SketchComponenet from './components/app';
+import App from './components/app';
 
-
-ReactDOM.render(<SketchComponenet />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

@@ -15,10 +15,20 @@ export class TravelingSalesmanLogic {
     this._populationSize = options.populationSize;
     this._bestDna = null;
     this._bestOfPopulation = null;
+    this._bestDistance = Infinity;
   }
 
   get bestDna() {
     return this._bestDna;
+  }
+
+  set bestDna(dna) {
+    this._bestDna = dna;
+    this._bestDistance = calculateDistance(dna.genes, this._points);
+  }
+
+  get bestDistance() {
+    return this._bestDistance;
   }
 
   get bestOfPopulation() {
@@ -27,6 +37,17 @@ export class TravelingSalesmanLogic {
 
   get points() {
     return this._points;
+  }
+
+  get pointsAmount() {
+    return this._pointsAmount;
+  }
+
+  get averageFitness() {
+    let sum = 0;
+    const currPop = this._population.slice();
+    currPop.forEach((p) => { sum += p.fitness; });
+    return sum / currPop.length;
   }
 
   _mutateDna = (dna) => {
@@ -75,7 +96,7 @@ export class TravelingSalesmanLogic {
 
   _calcFitness=(array) => {
     const distance = calculateDistance(array, this._points);
-    return 1 / distance;
+    return (1 / distance) ** 2;
   }
 
 
@@ -99,7 +120,7 @@ export class TravelingSalesmanLogic {
 
       firstPopulation.push(DnaFactory.get(genes, fitness));
     }
-    this._bestDna = firstPopulation[bestIndex];
+    this.bestDna = firstPopulation[bestIndex];
     this._bestOfPopulation = this._bestDna;
     this._normalizeFitness(firstPopulation);
     this._population = firstPopulation;
@@ -121,13 +142,26 @@ export class TravelingSalesmanLogic {
       newPopulation.push(dna);
     }
 
+    this._normalizeFitness(newPopulation);
     this._bestOfPopulation = newPopulation[bestIndex];
 
     if (bestFitness > this._bestDna.fitness) {
-      this._bestDna = this._bestOfPopulation;
+      this.bestDna = this._bestOfPopulation;
+      console.log('bestDna', this._bestDna);
     }
 
-    this._normalizeFitness(newPopulation);
     this._population = newPopulation;
+  }
+
+  pause = () => {
+    this._p5.noLoop();
+  }
+
+  contin = () => {
+    this._p5.loop();
+  }
+
+  dispose = () => {
+    this._p5.remove();
   }
 }
