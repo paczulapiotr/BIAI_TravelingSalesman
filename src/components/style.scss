@@ -4,7 +4,15 @@ body {
 		background-color: rgb(230, 220, 210);
 		min-height: 100vh;
 		min-width: 100vw;
+
+		.customization-panels{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
 		.panel { 
+			vertical-align: top;
 			display: inline-block;
 			padding: 20px;
 			margin: 20px;

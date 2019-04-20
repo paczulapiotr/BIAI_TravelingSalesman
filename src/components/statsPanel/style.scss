@@ -1,5 +1,8 @@
 .stats-panel {
-	& > * {
-		margin: 5px !important;
+	.stats-content {
+		width: 300px;
+		& > * {
+			margin: 5px !important;
+		}
 	}
 }

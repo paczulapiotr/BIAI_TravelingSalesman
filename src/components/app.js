@@ -60,13 +60,17 @@ render() {
   return (
     <section className="main-section">
       <Sketch sketch={sketch} />
-      <Stats statsGetter={manager.stats} />
-      <Control
-        contin={manager.contin}
-        pause={manager.pause}
-        restart={this.handleRestart}
-      />
-      <Settings options={options} updateOptions={this.updateOptions} />
+      <div className="panel">
+        <div className="customization-panels">
+          <Control
+            contin={manager.contin}
+            pause={manager.pause}
+            restart={this.handleRestart}
+          />
+          <Settings options={options} updateOptions={this.updateOptions} />
+          <Stats statsGetter={manager.stats} />
+        </div>
+      </div>
     </section>
   );
 }

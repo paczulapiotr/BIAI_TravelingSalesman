@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Paper, Typography, Button, TextField, Checkbox, FormControl,
+  Typography, Button, TextField, Checkbox, FormControl,
+  ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, FormControlLabel,
 } from '@material-ui/core';
+import { ExpandMoreOutlined } from '@material-ui/icons';
 import './style.scss';
 
 const maxValues = {
@@ -113,25 +115,36 @@ render() {
     showPopulationsBest,
   } = this.state;
   return (
-    <Paper className="panel settings-panel">
-      <Typography variant="h4">
+    <ExpansionPanel className="settings-panel">
+      <ExpansionPanelSummary expandIcon={<ExpandMoreOutlined />}>
+        <Typography variant="h4">
          Settings panel
-      </Typography>
-      <FormControl className="form-control">
-        <TextField value={populationSize} onChange={this.handlePopulationSize} variant="outlined" label="Population size" type="number" />
-        <TextField value={mutation} onChange={this.handleMutation} variant="outlined" label="Mutation %" type="number" />
-        <TextField value={width} onChange={this.handleWidth} variant="outlined" label="Canvas width" type="number" />
-        <TextField value={height} onChange={this.handleHeight} variant="outlined" label="Canvas height" type="number" />
-        <TextField value={pointsAmount} onChange={this.handleAmount} variant="outlined" label="Points amount" type="number" />
-        <Typography variant="h6">Show best of population?
-          <Checkbox color="primary" checked={showPopulationsBest} onChange={this.handleCheckbox} />
         </Typography>
-        <footer className="settings-buttons">
-          <Button variant="outlined" onClick={this.handleReset}>Reset</Button>
-          <Button variant="outlined" onClick={this.handleSave}>Save</Button>
-        </footer>
-      </FormControl>
-    </Paper>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <FormControl className="form-control">
+          <TextField value={populationSize} onChange={this.handlePopulationSize} variant="outlined" label="Population size" type="number" />
+          <TextField value={mutation} onChange={this.handleMutation} variant="outlined" label="Mutation %" type="number" />
+          <TextField value={width} onChange={this.handleWidth} variant="outlined" label="Canvas width" type="number" />
+          <TextField value={height} onChange={this.handleHeight} variant="outlined" label="Canvas height" type="number" />
+          <TextField value={pointsAmount} onChange={this.handleAmount} variant="outlined" label="Points amount" type="number" />
+          <FormControlLabel
+            label="Show best of population?"
+            control={(
+              <Checkbox
+                color="primary"
+                checked={showPopulationsBest}
+                onChange={this.handleCheckbox}
+              />
+            )}
+          />
+          <footer className="settings-buttons">
+            <Button variant="outlined" onClick={this.handleReset}>Reset</Button>
+            <Button variant="outlined" onClick={this.handleSave}>Save</Button>
+          </footer>
+        </FormControl>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }
 }

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Typography, Button } from '@material-ui/core';
+import {
+  Typography, Button,
+  ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanel,
+} from '@material-ui/core';
+import { ExpandMoreOutlined } from '@material-ui/icons';
 import './style.scss';
 
 export default class StatsPanel extends Component {
@@ -24,16 +28,22 @@ updateStats = () => {
 render() {
   const { averageFitness, bestDistance } = this.state;
   return (
-    <Paper className="stats-panel panel">
-      <Typography variant="h4">Statistics</Typography>
-      <Typography variant="h6">{`Average fitness: ${averageFitness}`}</Typography>
-      <Typography variant="h6">{`Best distance: ${bestDistance}`}</Typography>
-      <Button
-        variant="outlined"
-        onClick={this.updateStats}
-      >Refresh
-      </Button>
-    </Paper>
+    <ExpansionPanel className="stats-panel">
+      <ExpansionPanelSummary expandIcon={<ExpandMoreOutlined />}>
+        <Typography variant="h4">Statistics</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <div className="stats-content">
+          <Typography variant="h6">{`Average fitness: ${averageFitness}`}</Typography>
+          <Typography variant="h6">{`Best distance: ${bestDistance}`}</Typography>
+          <Button
+            variant="outlined"
+            onClick={this.updateStats}
+          >Refresh
+          </Button>
+        </div>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }
 }

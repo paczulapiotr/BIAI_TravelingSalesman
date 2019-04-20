@@ -1,10 +1,11 @@
 .control-panel {
+
 	.control-buttons{
+		width:300px;	
 		display: flex;
 		justify-content: space-around;
 		& > button {
 			margin: 5px;
 		}
-
 	}	
 }
