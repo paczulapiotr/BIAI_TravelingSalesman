@@ -37,6 +37,7 @@ render() {
           <Typography variant="h6">{`Average fitness: ${averageFitness}`}</Typography>
           <Typography variant="h6">{`Best distance: ${bestDistance}`}</Typography>
           <Button
+            color="primary"
             variant="outlined"
             onClick={this.updateStats}
           >Refresh

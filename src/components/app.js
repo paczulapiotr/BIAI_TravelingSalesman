@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Sketch from './sketchPanel';
-import Control from './controlPanel';
-import Stats from './statsPanel';
-import Settings from './settingsPanel';
+import Sketch from './panels/sketchPanel';
+import Control from './panels/controlPanel';
+import Stats from './panels/statsPanel';
+import Settings from './panels/settingsPanel';
 import { SketchFactory } from '../p5/sketch';
 import './style.scss';
 
@@ -36,20 +36,11 @@ handleRestart = () => {
   this.setState({ ...newState });
 }
 
-updateOptions = (populationSize, mutation, pointsAmount, width, height, showPopulationsBest) => {
-  const canvasHeight = showPopulationsBest ? height * 2 : height;
-  const canvasWidth = width;
+updateOptions = (newOptions) => {
   this.setState(prev => ({
     options: {
       ...prev.options,
-      populationSize,
-      mutation,
-      pointsAmount,
-      canvasHeight,
-      canvasWidth,
-      width,
-      height,
-      showPopulationsBest,
+      ...newOptions,
     },
   }));
 }

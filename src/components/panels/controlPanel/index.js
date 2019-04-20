@@ -15,9 +15,9 @@ const ControlPanel = ({ contin, pause, restart }) => (
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       <footer className="control-buttons">
-        <Button variant="outlined" onClick={restart}>Restart</Button>
-        <Button variant="outlined" onClick={pause}>Pause</Button>
-        <Button variant="outlined" onClick={contin}>Continue</Button>
+        <Button variant="outlined" onClick={restart} color="primary">Restart</Button>
+        <Button variant="outlined" onClick={pause} color="primary">Pause</Button>
+        <Button variant="outlined" onClick={contin} color="primary">Continue</Button>
       </footer>
     </ExpansionPanelDetails>
   </ExpansionPanel>

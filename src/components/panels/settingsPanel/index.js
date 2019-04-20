@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import { ExpandMoreOutlined } from '@material-ui/icons';
 import './style.scss';
+import ManualSelector from '../../manualSelector';
 
 const maxValues = {
   width: 2000,
@@ -27,10 +28,13 @@ export default class SettingsPanel extends Component {
       mutation: props.options.mutation,
       width: props.options.width,
       height: props.options.height,
+      points: props.options.points || [],
+      randomPoints: props.options.randomPoints,
       pointsAmount: props.options.pointsAmount,
       showPopulationsBest: props.options.showPopulationsBest,
     };
   }
+
 
 handlePopulationSize=(e) => {
   const val = Number.parseInt(e.target.value);
@@ -56,32 +60,36 @@ handleMutation=(e) => {
 handleWidth=(e) => {
   const val = Number.parseInt(e.target.value);
   if (val > 0 && val < maxValues.width) {
-    this.setState({ width: val });
+    this.setState({ width: val, points: [] });
   } else if (val > maxValues.width) {
-    this.setState({ width: maxValues.width });
+    this.setState({ width: maxValues.width, points: [] });
   }
 }
 
 handleHeight=(e) => {
   const val = Number.parseInt(e.target.value);
   if (val > 0 && val < maxValues.height) {
-    this.setState({ height: val });
+    this.setState({ height: val, points: [] });
   } else if (val > maxValues.height) {
-    this.setState({ height: maxValues.height });
+    this.setState({ height: maxValues.height, points: [] });
   }
 }
 
 handleAmount=(e) => {
   const val = Number.parseInt(e.target.value);
   if (val > 0 && val < maxValues.height) {
-    this.setState({ pointsAmount: val });
+    this.setState({ pointsAmount: val, points: [] });
   } else if (val > maxValues.height) {
-    this.setState({ pointsAmount: maxValues.pointsAmount });
+    this.setState({ pointsAmount: maxValues.pointsAmount, points: [] });
   }
 }
 
 handleCheckbox=(e) => {
   this.setState({ showPopulationsBest: e.target.checked });
+}
+
+handleRandomPoints=(e) => {
+  this.setState({ randomPoints: e.target.checked });
 }
 
 handleReset=() => {
@@ -100,9 +108,37 @@ handleReset=() => {
 handleSave=() => {
   const { updateOptions } = this.props;
   const {
-    populationSize, mutation, width, height, showPopulationsBest, pointsAmount,
+    populationSize,
+    mutation,
+    width,
+    height,
+    points,
+    randomPoints,
+    pointsAmount,
+    showPopulationsBest,
   } = this.state;
-  updateOptions(populationSize, mutation, pointsAmount, width, height, showPopulationsBest);
+  const canvasHeight = showPopulationsBest ? height * 2 : height;
+  const canvasWidth = width;
+  updateOptions({
+    populationSize,
+    mutation,
+    width,
+    height,
+    canvasWidth,
+    canvasHeight,
+    points,
+    randomPoints,
+    pointsAmount,
+    showPopulationsBest,
+  });
+}
+
+handleManualSelector=(points) => {
+  this.setState({
+    points,
+    pointsAmount: points.length,
+    randomPoints: false,
+  });
 }
 
 render() {
@@ -112,6 +148,7 @@ render() {
     width,
     height,
     pointsAmount,
+    randomPoints,
     showPopulationsBest,
   } = this.state;
   return (
@@ -128,6 +165,17 @@ render() {
           <TextField value={width} onChange={this.handleWidth} variant="outlined" label="Canvas width" type="number" />
           <TextField value={height} onChange={this.handleHeight} variant="outlined" label="Canvas height" type="number" />
           <TextField value={pointsAmount} onChange={this.handleAmount} variant="outlined" label="Points amount" type="number" />
+          <ManualSelector width={width} height={height} savePoints={this.handleManualSelector} />
+          <FormControlLabel
+            label="Use random points?"
+            control={(
+              <Checkbox
+                color="primary"
+                checked={randomPoints}
+                onChange={this.handleRandomPoints}
+              />
+            )}
+          />
           <FormControlLabel
             label="Show best of population?"
             control={(
@@ -139,8 +187,8 @@ render() {
             )}
           />
           <footer className="settings-buttons">
-            <Button variant="outlined" onClick={this.handleReset}>Reset</Button>
-            <Button variant="outlined" onClick={this.handleSave}>Save</Button>
+            <Button variant="outlined" onClick={this.handleReset} color="primary">Reset</Button>
+            <Button variant="outlined" onClick={this.handleSave} color="primary">Save</Button>
           </footer>
         </FormControl>
       </ExpansionPanelDetails>

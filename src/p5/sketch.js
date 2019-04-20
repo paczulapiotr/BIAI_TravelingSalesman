@@ -29,9 +29,6 @@ export class SketchFactory {
     this._width = options.width;
     this._canvasWidth = options.canvasWidth;
     this._canvasHeight = options.canvasHeight;
-    this._pointsAmount = options.pointsAmount;
-    this._populationSize = options.populationSize;
-    this._mutation = options.mutation;
   }
 
 
