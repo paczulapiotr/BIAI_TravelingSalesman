@@ -1,13 +1,12 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin'); //eslint-disable-line
+const TerserPlugin = require('terser-webpack-plugin'); //eslint-disable-line
 
 module.exports = {
   entry: ['@babel/polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/',
   },
   module: {
     rules: [
@@ -34,18 +33,13 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    historyApiFallback: true,
-  },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html',
+      filename: 'index.html',
     }),
   ],
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin(),
-    ],
+    minimizer: [new TerserPlugin()],
   },
 };

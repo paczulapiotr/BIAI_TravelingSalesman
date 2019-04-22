@@ -1,4 +1,9 @@
 # BIAI_TravelingSalesman
 
-## TODO:
-- Manual points choosing
+## Development
+1. Run in order:
+- npm i
+- npm start
+
+## Deploy
+- npm run deploy
