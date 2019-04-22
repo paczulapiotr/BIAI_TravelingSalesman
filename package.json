@@ -4,8 +4,9 @@
   "description": "Silesian University of Technology BIAI project",
   "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --config webpack.dev.js",
-    "deploy": "webpack --config webpack.prod.js",
+	"start" :"node ./server.js",
+	"dev": "webpack-dev-server --open --hot --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "lint": "eslint --ignore-path .gitignore ."
   },
   "repository": {
