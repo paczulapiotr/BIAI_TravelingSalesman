@@ -6,6 +6,7 @@ import {
 import { ReplayOutlined } from '@material-ui/icons';
 import { Selector } from '../../p5/selector';
 import P5Wrapper from '../p5Wrapper';
+import './style.scss';
 
 export default class ManualSelector extends Component {
   static propTypes = {
@@ -58,27 +59,29 @@ Choose points
           onClose={this.handleClose}
           aria-labelledby="manual-points-selector"
         >
-          <DialogTitle id="max-width-dialog-title">Points selector</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
+          <div className="dialog-padder">
+            <DialogTitle>Points selector</DialogTitle>
+            <DialogContent className="manual-dialog-content">
+              <DialogContentText>
 Choose points for your voyage
-            </DialogContentText>
-            <P5Wrapper styleObject={{ border: '2px solid black' }} sketch={this.selector.sketch} />
-          </DialogContent>
-          <DialogActions>
-            <IconButton onClick={this.selector.revert} aria-label="Revert">
-              <ReplayOutlined />
-            </IconButton>
-            <Button onClick={this.handleClose} color="primary">
+              </DialogContentText>
+              <P5Wrapper sketch={this.selector.sketch} />
+            </DialogContent>
+            <DialogActions>
+              <IconButton onClick={this.selector.revert} aria-label="Revert">
+                <ReplayOutlined />
+              </IconButton>
+              <Button onClick={this.handleClose} color="primary">
 Cancel
-            </Button>
-            <Button onClick={this.handleReset} color="primary">
+              </Button>
+              <Button onClick={this.handleReset} color="primary">
 Reset
-            </Button>
-            <Button onClick={this.handleSave} color="primary">
+              </Button>
+              <Button onClick={this.handleSave} color="primary">
 Save
-            </Button>
-          </DialogActions>
+              </Button>
+            </DialogActions>
+          </div>
         </Dialog>
       </>
     );

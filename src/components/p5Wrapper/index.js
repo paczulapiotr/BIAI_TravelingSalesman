@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import P5 from 'p5';
-// /* eslint-disable */
+import './style.scss';
+
 export default class P5Wrapper extends Component {
 static propTypes = {
   sketch: PropTypes.func.isRequired,
-  styleObject: PropTypes.objectOf(PropTypes.any),
-}
-
-static defaultProps = {
-  styleObject: {},
 }
 
 constructor(props) {
@@ -40,10 +36,8 @@ catchRef = sketch => (p5) => {
 }
 
 render() {
-  const { styleObject } = this.props;
   return (
     <div
-      style={styleObject}
       className="canvas-wrapper"
       ref={(wrapper) => { this.wrapper = wrapper; }}
     />

@@ -1,6 +1,11 @@
 body {
 	margin: 0;
 	background-color: #dfefff;
+
+	#root {
+		position: absolute;
+	}
+
 	.main-section {
 	    display: flex;
 		flex-direction: row;
@@ -9,10 +14,16 @@ body {
 		min-height: 100vh;
 		min-width: 100vw;
 		align-items: flex-start;
-		.customization-panels{
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
+		
+		.side-menu {
+			vertical-align: top;
+			display: inline-block;
+			padding: 20px;
+			.customization-panels{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
 		}
 
 		.panel { 

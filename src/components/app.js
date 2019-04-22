@@ -51,7 +51,7 @@ render() {
   return (
     <section className="main-section">
       <Sketch sketch={sketch} />
-      <div className="panel">
+      <aside className="side-menu">
         <div className="customization-panels">
           <Control
             contin={manager.contin}
@@ -61,7 +61,7 @@ render() {
           <Settings options={options} updateOptions={this.updateOptions} />
           <Stats statsGetter={manager.stats} />
         </div>
-      </div>
+      </aside>
     </section>
   );
 }
