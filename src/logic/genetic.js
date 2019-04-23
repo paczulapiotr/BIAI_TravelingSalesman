@@ -60,7 +60,16 @@ export class TravelingSalesmanLogic {
     if (prob > this._mutation) {
       return dna;
     }
-    const genes = this._p5.shuffle(dna.genes);
+    const { length } = dna.genes;
+    const first = Number.parseInt(this._p5.random(length));
+    let second = Number.parseInt(this._p5.random(length));
+    if (first === second) {
+      second = (second + 1) % length;
+    }
+    const genes = [...dna.genes];
+    const temp = genes[first];
+    genes[first] = genes[second];
+    genes[second] = temp;
     const fitness = this._calcFitness(genes);
     return DnaFactory.get(genes, fitness);
   }
@@ -87,8 +96,8 @@ export class TravelingSalesmanLogic {
 
   _crossover=(dnaA, dnaB) => {
     const { length } = dnaA.genes;
-    const i = this._p5.random(0, length);
-    const j = this._p5.random(i + 1, length);
+    const i = Number.parseInt(this._p5.random(length));
+    const j = Number.parseInt(this._p5.random(i + 1, length + 1));
     const newGenes = dnaA.genes.slice(i, j);
     dnaB.genes.forEach((b) => {
       if (!newGenes.includes(b)) {
