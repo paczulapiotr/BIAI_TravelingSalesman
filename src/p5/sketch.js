@@ -4,20 +4,18 @@ function prepareScene(p5) {
   p5.clear();
 }
 
-function drawScene(p5, voyage, genes, xtranslate = 0, ytranslate = 0, radius = 10) {
-  let prevX;
-  let prevY;
-  for (let i = 0; i < genes.length; i++) {
+function drawScene(p5, voyage, genes, xTranslate = 0, yTranslate = 0, radius = 10) {
+  const { length } = genes;
+  for (let i = 0; i < length; i++) {
+    const j = (i + 1) % length;
     let { x, y } = voyage[genes[i]];
-    x += xtranslate;
-    y += ytranslate;
-    if (i > 0) {
-      p5.line(prevX, prevY, x, y);
-    }
+    let { x: nextX, y: nextY } = voyage[genes[j]];
+    x += xTranslate;
+    y += yTranslate;
+    nextX += xTranslate;
+    nextY += yTranslate;
+    p5.line(x, y, nextX, nextY);
     p5.ellipse(x, y, radius, radius);
-
-    prevX = x;
-    prevY = y;
   }
 }
 

@@ -6,16 +6,15 @@ function _distanceBetweenPoints(pointA, pointB) {
 
 export function calculateDistance(array, points) {
   let sum = 0;
-  let prev = null;
-  array.forEach((curr) => {
-    if (prev !== null) {
-      sum += _distanceBetweenPoints(
-        points[prev],
-        points[curr],
-      );
-    }
-    prev = curr;
-  });
+  let j;
+  const { length } = array;
+  for (let i = 0; i < length; i++) {
+    j = (i + 1) % length;
+    sum += _distanceBetweenPoints(
+      points[array[i]],
+      points[array[j]],
+    );
+  }
   return sum;
 }
 
