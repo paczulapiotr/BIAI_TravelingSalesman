@@ -56,11 +56,12 @@ export class TravelingSalesmanLogic {
   }
 
   _mutateDna = (dna) => {
-    const prob = this._p5.random(0, 1);
-    if (prob > this._mutation) {
+    const prob = this._p5.random(1);
+    const { length } = dna.genes;
+    if (prob > this._mutation || length < 2) {
       return dna;
     }
-    const { length } = dna.genes;
+
     const first = Number.parseInt(this._p5.random(length));
     let second = Number.parseInt(this._p5.random(length));
     if (first === second) {
