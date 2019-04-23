@@ -152,7 +152,6 @@ export class TravelingSalesmanLogic {
 
     if (bestFitness > this._bestDna.fitness) {
       this.bestDna = this._bestOfPopulation;
-      console.log('bestDna', this._bestDna);
     }
 
     this._population = newPopulation;
